@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "description": "Backend of this project",
+  "author": "Ryan Willpower <surasak.c.work@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "@types/pino": "^5.8.13",
+    "apollo-server": "^2.9.12",
+    "graphql": "^14.5.8",
+    "pino": "^5.14.0"
+  },
+  "scripts": {
+    "start": "nodemon --exec 'ts-node src/index.ts' -w src/*",
+    "build": "tsc --build"
+  }
+}

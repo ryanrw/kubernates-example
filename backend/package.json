@@ -7,9 +7,11 @@
   "author": "Ryan Willpower <surasak.c.work@gmail.com>",
   "private": true,
   "dependencies": {
+    "@types/lodash.merge": "^4.6.6",
     "@types/pino": "^5.8.13",
     "apollo-server": "^2.9.12",
     "graphql": "^14.5.8",
+    "lodash.merge": "^4.6.2",
     "pino": "^5.14.0"
   },
   "scripts": {

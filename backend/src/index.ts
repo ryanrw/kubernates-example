@@ -1,27 +1,10 @@
-import { ApolloServer, gql } from "apollo-server"
-import Logger from "pino"
+import { ApolloServer } from "apollo-server"
 
-const users = [{ username: `ryan` }, { username: `fung` }]
+import { schema } from "./graphql"
 
-const typeDefs = gql`
-  type User {
-    username: String!
-  }
+import { logger } from "./loaders/logger"
 
-  type Query {
-    getAllUser: [User]!
-  }
-`
-
-const resolvers = {
-  Query: {
-    getAllUser: () => users,
-  },
-}
-
-const server = new ApolloServer({ typeDefs, resolvers })
-
-const logger = Logger()
+const server = new ApolloServer(schema)
 
 server.listen().then(({ url }) => {
   logger.info(`server started at ${url}`)

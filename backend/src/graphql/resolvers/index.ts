@@ -1,8 +1,8 @@
 import merge from "lodash.merge"
 
 import root from "./root"
-import getAllUser from "./getAllUser"
+import register from "./register"
 
-const resolvers = merge({}, root, getAllUser)
+const resolvers = merge({}, root, register)
 
 export default resolvers

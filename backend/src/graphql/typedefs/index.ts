@@ -1,7 +1,7 @@
 import root from "./root"
-import user from "./user"
-import getAllUser from "./getAllUser"
+import status from "./status"
+import register from "./register"
 
-const typeDefs = [root, user, getAllUser]
+const typeDefs = [root, status, register]
 
 export default typeDefs

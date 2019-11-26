@@ -8,14 +8,16 @@
   "private": true,
   "dependencies": {
     "@types/lodash.merge": "^4.6.6",
+    "@types/pg": "^7.11.2",
     "@types/pino": "^5.8.13",
     "apollo-server": "^2.9.12",
     "graphql": "^14.5.8",
     "lodash.merge": "^4.6.2",
+    "pg": "^7.14.0",
     "pino": "^5.14.0"
   },
   "scripts": {
-    "start": "nodemon --exec 'ts-node src/index.ts' -w src/*",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "tsc --build"
   }
 }

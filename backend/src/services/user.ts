@@ -1,13 +1,11 @@
 import { ApolloError } from "apollo-server"
+import { hash, verify } from "argon2"
 
 import { initializeDatabaseClient } from "../loaders/pg"
 import { logger } from "../loaders/logger"
 import { DuplicateUsernameError } from "../errors/duplicateUsername"
-import { from } from "apollo-link"
 
-// @todo add the real user service
-export const users = [{ username: `ryan` }, { username: `fung` }]
-
+// @todo add argon2 hash password
 export class User {
   username: string
   password: string
@@ -18,16 +16,19 @@ export class User {
   }
 }
 
-// exactly new one
 export class UserService {
   async register(userInput: User) {
     const database = await this.connectDatabase()
 
     try {
-      await this.checkDuplicate(userInput.username)
+      const lowerCaseUsername = userInput.username.toLowerCase()
+
+      await this.checkDuplicate(lowerCaseUsername)
+
+      const hashedPassword = await hash(userInput.password)
 
       const QUERY = `INSERT INTO user_table(username, password) VALUES($1, $2)`
-      const VALUES = [userInput.username.toLowerCase(), userInput.password]
+      const VALUES = [lowerCaseUsername, hashedPassword]
 
       await database.query(QUERY, VALUES)
     } catch (error) {
@@ -36,6 +37,8 @@ export class UserService {
       if (error instanceof DuplicateUsernameError) {
         throw new ApolloError(error.message, error.name)
       }
+
+      throw new ApolloError(error.message)
     }
   }
 

@@ -1,10 +1,8 @@
-import { GraphQLError } from "graphql"
-
 import { User, UserService } from "../../services/user"
 import { Status } from "../../services/status"
 
 export default {
-  Query: {
+  Mutation: {
     register: async (_context: any, args: User) => {
       const user = new User(args.username, args.password)
       const database = new UserService()

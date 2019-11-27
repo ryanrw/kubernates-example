@@ -20,14 +20,14 @@ export class User {
 
 // exactly new one
 export class UserService {
-  async register(userData: User) {
+  async register(userInput: User) {
     const database = await this.connectDatabase()
 
     try {
-      await this.checkDuplicate(userData.username)
+      await this.checkDuplicate(userInput.username)
 
       const QUERY = `INSERT INTO user_table(username, password) VALUES($1, $2)`
-      const VALUES = [userData.username.toLowerCase(), userData.password]
+      const VALUES = [userInput.username.toLowerCase(), userInput.password]
 
       await database.query(QUERY, VALUES)
     } catch (error) {

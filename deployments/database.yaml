@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  labels:
+    app: microservice
+    service: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice
+      service: database
+  template:
+    metadata:
+      labels:
+        app: microservice
+        service: database
+    spec:
+      containers:
+        - name: database
+          image: postgres:alpine
+          volumeMounts:
+            - name: database
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: database
+          hostPath:
+            path: /Users/willpower/Documents/kubernates/db
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+spec:
+  selector:
+    app: microservice
+    service: database
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: LoadBalancer

@@ -10,10 +10,4 @@ export class Status {
       status: this.message,
     }
   }
-
-  fail() {
-    return {
-      status: this.message,
-    }
-  }
 }

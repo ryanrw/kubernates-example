@@ -3,7 +3,7 @@ import { hash, verify } from "argon2"
 
 import { initializeDatabaseClient } from "../loaders/pg"
 import { logger } from "../loaders/logger"
-import { DuplicateUsernameError } from "../errors/duplicateUsername"
+import { DuplicateUsernameError } from "../errors/duplicate-username"
 import { UserNotExistError } from "../errors/user-not-exist"
 import { IncorrectPasswordError } from "../errors/incorrect-password"
 

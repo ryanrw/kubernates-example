@@ -4,8 +4,14 @@ import { hash, verify } from "argon2"
 import { initializeDatabaseClient } from "../loaders/pg"
 import { logger } from "../loaders/logger"
 import { DuplicateUsernameError } from "../errors/duplicateUsername"
+import { UserNotExistError } from "../errors/user-not-exist"
+import { IncorrectPasswordError } from "../errors/incorrect-password"
 
-// @todo add argon2 hash password
+interface UserData {
+  username: string
+  password: string
+}
+
 export class User {
   username: string
   password: string
@@ -21,6 +27,7 @@ export class UserService {
     const database = await this.connectDatabase()
 
     try {
+      // I don't want to limit the capital char
       const lowerCaseUsername = userInput.username.toLowerCase()
 
       await this.checkDuplicate(lowerCaseUsername)
@@ -47,7 +54,7 @@ export class UserService {
     return database
   }
 
-  async checkDuplicate(username: string) {
+  private async checkDuplicate(username: string) {
     const database = await this.connectDatabase()
 
     const DUPLICATE_CHECK_QUERY = `SELECT username FROM user_table WHERE username = $1`
@@ -64,6 +71,46 @@ export class UserService {
       throw new DuplicateUsernameError(
         "This username is already used. Please try new username."
       )
+    }
+  }
+
+  // @todo refactor this method
+  async login(userInput: User) {
+    const database = await this.connectDatabase()
+
+    try {
+      const username = userInput.username.toLowerCase()
+
+      const QUERY = `SELECT username, password FROM user_table WHERE username = $1`
+      const VALUES = [username]
+
+      const queryResult = await database.query<UserData>(QUERY, VALUES)
+
+      const isUserExist = queryResult.rowCount > 0
+
+      if (isUserExist) {
+        const isPasswordCorrect = await verify(
+          queryResult.rows[0].password,
+          userInput.password
+        )
+
+        if (isPasswordCorrect) {
+          return true
+        }
+
+        throw new IncorrectPasswordError()
+      }
+
+      throw new UserNotExistError(username)
+    } catch (error) {
+      if (
+        error instanceof IncorrectPasswordError ||
+        error instanceof UserNotExistError
+      ) {
+        throw new ApolloError(error.message, error.name)
+      }
+
+      throw new ApolloError(error.message)
     }
   }
 }

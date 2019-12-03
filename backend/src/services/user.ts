@@ -8,6 +8,7 @@ import { UserNotExistError } from "../errors/user-not-exist"
 import { IncorrectPasswordError } from "../errors/incorrect-password"
 
 interface UserData {
+  id: string
   username: string
   password: string
 }
@@ -95,7 +96,10 @@ export class UserService {
         )
 
         if (isPasswordCorrect) {
-          return true
+          return {
+            id: queryResult.rows[0].id,
+            username: queryResult.rows[0].username,
+          }
         }
 
         throw new IncorrectPasswordError()

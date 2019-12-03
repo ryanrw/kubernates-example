@@ -1,7 +1,6 @@
 import { User, UserService } from "../../services/user"
-import { Status } from "../../services/status"
+import { convertUserDataToJwt } from "../../services/jwt"
 
-// add login method in user service
 export default {
   Mutation: {
     login: async (_context: any, args: User) => {
@@ -9,13 +8,11 @@ export default {
 
       const database = new UserService()
 
-      const isUserInputCorrect = await database.login(userInput)
+      const user = await database.login(userInput)
 
-      const status = new Status("login successfully")
+      const jwtObject = convertUserDataToJwt(user)
 
-      if (isUserInputCorrect) {
-        return status.complete()
-      }
+      return jwtObject
     },
   },
 }

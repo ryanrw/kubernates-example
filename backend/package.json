@@ -7,12 +7,14 @@
   "author": "Ryan Willpower <surasak.c.work@gmail.com>",
   "private": true,
   "dependencies": {
+    "@types/jsonwebtoken": "^8.3.5",
     "@types/lodash.merge": "^4.6.6",
     "@types/pg": "^7.11.2",
     "@types/pino": "^5.8.13",
     "apollo-server": "^2.9.12",
     "argon2": "^0.25.1",
     "graphql": "^14.5.8",
+    "jsonwebtoken": "^8.5.1",
     "lodash.merge": "^4.6.2",
     "pg": "^7.14.0",
     "pino": "^5.14.0"

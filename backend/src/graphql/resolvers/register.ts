@@ -9,6 +9,7 @@ export default {
 
       await database.register(user)
 
+      // @todo change this line to function
       const status = new Status("user added successfully")
 
       return status.complete()

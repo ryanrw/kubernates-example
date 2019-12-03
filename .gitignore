@@ -2,3 +2,6 @@
 
 # database volume
 db/
+
+# build file
+*/dist/

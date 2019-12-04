@@ -21,11 +21,11 @@ spec:
         - name: database
           image: postgres:alpine
           env:
-            name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: database
-                key: POSTGRES_PASSWORD
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: POSTGRES_PASSWORD
           volumeMounts:
             - name: database
               mountPath: /var/lib/postgresql/data

@@ -5,3 +5,6 @@ db/
 
 # build file
 */dist/
+
+# secret file
+kubernetes/secret/*.yaml

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+spec:
+  selector:
+    app: monolith
+    service: database
+  ports:
+    - protocol: TCP
+      port: 5432
+  type: LoadBalancer

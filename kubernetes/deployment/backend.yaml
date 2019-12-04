@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: monolith
+    service: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monolith
+      service: backend
+  template:
+    metadata:
+      labels:
+        app: monolith
+        service: backend
+    spec:
+      containers:
+        - name: backend
+          image: willpower/backend:1.0.0
+          env:
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: backend
+                  key: PGUSER
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend
+                  key: PGPASSWORD
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: backend
+                  key: PGHOST
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: backend
+                  key: PGDATABASE
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: backend
+                  key: PGPORT
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend
+                  key: JWT_SECRET

@@ -3,23 +3,29 @@ kind: Deployment
 metadata:
   name: database
   labels:
-    app: microservice
+    app: monolith
     service: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: microservice
+      app: monolith
       service: database
   template:
     metadata:
       labels:
-        app: microservice
+        app: monolith
         service: database
     spec:
       containers:
         - name: database
           image: postgres:alpine
+          env:
+            name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database
+                key: POSTGRES_PASSWORD
           volumeMounts:
             - name: database
               mountPath: /var/lib/postgresql/data
@@ -27,18 +33,3 @@ spec:
         - name: database
           hostPath:
             path: /Users/willpower/Documents/kubernates/db
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: database
-spec:
-  selector:
-    app: microservice
-    service: database
-  ports:
-    - protocol: TCP
-      port: 5432
-      targetPort: 5432
-  type: LoadBalancer
